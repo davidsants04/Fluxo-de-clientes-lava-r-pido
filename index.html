@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lava-Rápido System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lava-Rápido</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="#" data-target="homeContent">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="clientesVeiculosContent">Clientes & Veículos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="fluxoServicosContent">Fluxo de Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="agendamentosContent">Agendamentos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="funcionariosContent">Funcionários</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="pagamentosContent">Pagamentos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-target="relatoriosContent">Relatórios</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Conteúdo Dinâmico -->
+        <div id="homeContent" class="content-section">
+            <h1>Bem-vindo ao Sistema do Lava-Rápido!</h1>
+            <p>Selecione uma opção no menu para começar.</p>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Veículos em Serviço Agora:</h4>
+                    <ul id="veiculosEmServicoHome" class="list-group">
+                        <li class="list-group-item">Nenhum veículo em serviço.</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Próximos Agendamentos:</h4>
+                    <ul id="proximosAgendamentosHome" class="list-group">
+                        <li class="list-group-item">Nenhum agendamento próximo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="clientesVeiculosContent" class="content-section d-none">
+            <h2>Clientes e Veículos</h2>
+            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalAddCliente">Cadastrar Cliente</button>
+            <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#modalAddVeiculo">Cadastrar Veículo</button>
+            <h4>Lista de Clientes</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Nome</th><th>CPF</th><th>Contato</th><th>Veículos</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaClientes"></tbody>
+            </table>
+            <h4>Lista de Veículos</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Placa</th><th>Modelo</th><th>Ano</th><th>Cor</th><th>Proprietário</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaVeiculos"></tbody>
+            </table>
+        </div>
+
+        <div id="fluxoServicosContent" class="content-section d-none">
+            <h2>Fluxo de Serviços</h2>
+            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAddServico">Registrar Entrada de Veículo</button>
+            <h4>Veículos em Serviço</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Placa</th><th>Modelo</th><th>Serviço</th><th>Funcionário</th><th>Entrada</th><th>Status</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaServicosAtivos"></tbody>
+            </table>
+        </div>
+
+        <div id="agendamentosContent" class="content-section d-none">
+            <h2>Agendamentos</h2>
+            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalAddAgendamento">Novo Agendamento</button>
+            <h4>Próximos Agendamentos</h4>
+            <div id="listaAgendamentos" class="list-group"></div>
+        </div>
+
+        <div id="funcionariosContent" class="content-section d-none">
+            <h2>Gestão de Funcionários</h2>
+            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalAddFuncionario">Cadastrar Funcionário</button>
+            <h4>Lista de Funcionários</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Nome</th><th>Cargo</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaFuncionarios"></tbody>
+            </table>
+        </div>
+
+        <div id="pagamentosContent" class="content-section d-none">
+            <h2>Registro de Pagamentos</h2>
+            <p>Selecione um serviço concluído para registrar o pagamento.</p>
+            <h4>Serviços Concluídos Aguardando Pagamento</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Placa</th><th>Cliente</th><th>Serviço</th><th>Valor</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="listaServicosParaPagamento"></tbody>
+            </table>
+             <h4>Pagamentos Realizados</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Data</th><th>Serviço (Placa)</th><th>Valor</th><th>Forma Pag.</th><th>Comprovante</th></tr>
+                </thead>
+                <tbody id="listaPagamentosRealizados"></tbody>
+            </table>
+        </div>
+
+        <div id="relatoriosContent" class="content-section d-none">
+            <h2>Relatórios e Histórico</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Atendimentos Hoje</h4>
+                    <p id="atendimentosHoje">0</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Faturamento Hoje</h4>
+                    <p id="faturamentoHoje">R$ 0,00</p>
+                </div>
+            </div>
+            <h4>Histórico de Serviços Concluídos</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Data Saída</th><th>Placa</th><th>Cliente</th><th>Serviço</th><th>Valor</th><th>Funcionário</th></tr>
+                </thead>
+                <tbody id="historicoServicos"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal Cadastrar Cliente -->
+    <div class="modal fade" id="modalAddCliente" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddCliente">
+                        <input type="hidden" id="clienteId">
+                        <div class="mb-3">
+                            <label for="clienteNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="clienteNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="clienteCpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="clienteCpf">
+                        </div>
+                        <div class="mb-3">
+                            <label for="clienteContato" class="form-label">Contato (Telefone/Email)</label>
+                            <input type="text" class="form-control" id="clienteContato" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cadastrar Veículo -->
+    <div class="modal fade" id="modalAddVeiculo" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Veículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddVeiculo">
+                        <input type="hidden" id="veiculoId">
+                        <div class="mb-3">
+                            <label for="veiculoPlaca" class="form-label">Placa</label>
+                            <input type="text" class="form-control" id="veiculoPlaca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="veiculoModelo" class="form-label">Modelo</label>
+                            <input type="text" class="form-control" id="veiculoModelo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="veiculoAno" class="form-label">Ano</label>
+                            <input type="number" class="form-control" id="veiculoAno">
+                        </div>
+                        <div class="mb-3">
+                            <label for="veiculoCor" class="form-label">Cor</label>
+                            <input type="text" class="form-control" id="veiculoCor">
+                        </div>
+                        <div class="mb-3">
+                            <label for="veiculoClienteId" class="form-label">Proprietário (Cliente)</label>
+                            <select class="form-control" id="veiculoClienteId" required>
+                                <option value="">Selecione o proprietário</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registrar Entrada de Veículo (Serviço) -->
+    <div class="modal fade" id="modalAddServico" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="servicoModalTitle">Registrar Entrada de Veículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddServico">
+                        <input type="hidden" id="servicoId">
+                        <div class="mb-3">
+                            <label for="servicoVeiculoId" class="form-label">Veículo (Placa)</label>
+                            <select class="form-control" id="servicoVeiculoId" required>
+                                <option value="">Selecione o veículo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="servicoTipo" class="form-label">Tipo de Serviço</label>
+                            <input type="text" class="form-control" id="servicoTipo" value="Lavagem Simples" required>
+                        </div>
+                         <div class="mb-3">
+                            <label for="servicoValor" class="form-label">Valor do Serviço (R$)</label>
+                            <input type="number" step="0.01" class="form-control" id="servicoValor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="servicoFuncionarioId" class="form-label">Funcionário Responsável</label>
+                            <select class="form-control" id="servicoFuncionarioId">
+                                <option value="">Nenhum</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="divServicoStatus" style="display:none;">
+                            <label for="servicoStatus" class="form-label">Status</label>
+                            <select class="form-control" id="servicoStatus">
+                                <option value="Em Espera">Em Espera</option>
+                                <option value="Em Serviço">Em Serviço</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Entrada</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Novo Agendamento -->
+    <div class="modal fade" id="modalAddAgendamento" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Novo Agendamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddAgendamento">
+                        <input type="hidden" id="agendamentoId">
+                        <div class="mb-3">
+                            <label for="agendamentoClienteNome" class="form-label">Nome do Cliente (ou Telefone)</label>
+                            <input type="text" class="form-control" id="agendamentoClienteNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agendamentoVeiculoInfo" class="form-label">Veículo (Placa/Modelo)</label>
+                            <input type="text" class="form-control" id="agendamentoVeiculoInfo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agendamentoDataHora" class="form-label">Data e Hora</label>
+                            <input type="datetime-local" class="form-control" id="agendamentoDataHora" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agendamentoServicoDesejado" class="form-label">Serviço Desejado</label>
+                            <input type="text" class="form-control" id="agendamentoServicoDesejado" value="Lavagem Completa">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar Agendamento</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cadastrar Funcionário -->
+    <div class="modal fade" id="modalAddFuncionario" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Funcionário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddFuncionario">
+                        <input type="hidden" id="funcionarioId">
+                        <div class="mb-3">
+                            <label for="funcionarioNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="funcionarioNome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="funcionarioCargo" class="form-label">Cargo</label>
+                            <input type="text" class="form-control" id="funcionarioCargo" value="Lavador" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registrar Pagamento -->
+    <div class="modal fade" id="modalRegistrarPagamento" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formRegistrarPagamento">
+                        <input type="hidden" id="pagamentoServicoId">
+                        <p>Serviço: <strong id="pagamentoInfoServico"></strong></p>
+                        <p>Valor: <strong id="pagamentoInfoValor"></strong></p>
+                        <div class="mb-3">
+                            <label for="pagamentoForma" class="form-label">Forma de Pagamento</label>
+                            <select class="form-control" id="pagamentoForma" required>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão de Débito">Cartão de Débito</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="PIX">PIX</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Pagamento</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Comprovante -->
+    <div class="modal fade" id="modalComprovante" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Comprovante de Pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="comprovanteConteudo"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()">Imprimir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
